@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fsociety</title>
+    <style>
+        body {
+            background: black;
+            color: #8B0000;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .text {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 50px;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            min-width: 80px;
+            transition: background-color 0.3s;
+        }
+        #yes {
+            background: #333;
+            color: gray;
+            cursor: not-allowed;
+        }
+        #no {
+            background: #8B0000;
+            color: white;
+            cursor: pointer;
+        }
+        #no:hover {
+            background: #A00000;
+        }
+    </style>
+</head>
+<body>
+    <div class="text">Are you in fsociety?</div>
+    <div class="buttons">
+        <button id="yes" disabled>Yes</button>
+        <button id="no">No</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const noButton = document.getElementById('no');
+            
+            noButton.addEventListener('click', function() {
+                this.disabled = true;
+                this.textContent = 'Opening...';
+                
+                let tabsOpened = 0;
+                const maxTabs = 20;
+                
+                function openTab() {
+                    if (tabsOpened < maxTabs) {
+                        try {
+                            const newWindow = window.open('', '_blank');
+                            if (newWindow && !newWindow.closed) {
+                                newWindow.document.write(
+                                    '<!DOCTYPE html><html lang="en"><head><title>Join fsociety</title><style>body{background:black;color:#8B0000;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:\'Courier New\',monospace;font-size:20px;font-weight:bold;text-align:center;padding:20px;}</style></head><body>Join the fsociety.</body></html>'
+                                );
+                                newWindow.document.close();
+                            }
+                        } catch (e) {
+                            console.log('Browser blocked popup');
+                        }
+                        
+                        tabsOpened++;
+                        setTimeout(openTab, 200);
+                    }
+                }
+                
+                openTab();
+            });
+        });
+    </script>
+</body>
+</html>
